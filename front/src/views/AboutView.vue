@@ -1,6 +1,13 @@
+<script setup lang="ts">
+import Header from '@/components/Header.vue'
+</script>
+
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <Header/>
+    <h2>Project made for Web-apps, used my whole soul to make anything work.
+    Hope it's enough >.&lt; </h2>
+    
   </div>
 </template>
 

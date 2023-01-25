@@ -2,6 +2,7 @@ import {connect} from 'mqtt'
 import dotenv from "dotenv"
 import { createClient } from 'redis';
 
+
 dotenv.config();
 
 // Redis Login
@@ -26,8 +27,6 @@ async function addRedis(json){
 
 }
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
-
-
 
 
 
@@ -62,13 +61,20 @@ mqttClient.on('message', (topic, message) =>{
   const obj = {
     id: payload.end_device_ids.device_id,
     temp: decoded.internalTemperature,
-    moist1: decoded.moistureLevel_1,
-    moist2: decoded.moistureLevel_2,
-    moist3: decoded.moistureLevel_3,
-    moist4: decoded.moistureLevel_4
+    date:  timestamp(payload.received_at),
+    humidity:{
+      hum1: decoded.moistureLevel_1,
+      hum2: decoded.moistureLevel_2,
+      hum3: decoded.moistureLevel_3,
+      hum4: decoded.moistureLevel_4
+    }
   }
   console.log(obj);
   addRedis(JSON.stringify(obj));
-  // console.log(`${topic} : \n${payload.uplink_message}`);
 })
+
+function timestamp(str){
+  return new Date(str).getTime();
+}
+
 
